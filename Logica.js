@@ -362,8 +362,32 @@ document.addEventListener('DOMContentLoaded', iniciarAtualizacao);
 
 
 
-function salvarAuditarPec() {
+function verificarEExcluirDuplicatasAuditoria(ucs) {
+    // Itera sobre as UCs fornecidas para verificar duplicatas
+    ucs.forEach(uc => {
+        auditarPec.orderByChild('ucs').equalTo(uc).once('value', snapshot => {
+            if (snapshot.exists()) {
+                // Se encontrar duplicatas, remove os registros com a mesma UC
+                snapshot.forEach(childSnapshot => {
+                    const registro = childSnapshot.val();
+                    const key = childSnapshot.key;
+                    console.log(`Duplicata encontrada para UC: ${uc}. Removendo registro com chave: ${key}`);
+                    auditarPec.child(key).remove()
+                        .then(() => {
+                            console.log(`Registro duplicado com UC ${uc} removido com sucesso.`);
+                        })
+                        .catch(error => {
+                            console.error(`Erro ao remover registro duplicado com UC ${uc}:`, error);
+                        });
+                });
+            }
+        }).catch(error => {
+            console.error("Erro ao verificar duplicatas:", error);
+        });
+    });
+}
 
+function salvarAuditarPec() {
     // Mostrar o modal de carregamento
     mostrarModalCarregamento();
 
@@ -378,8 +402,13 @@ function salvarAuditarPec() {
 
     if (!data) return console.error("Data inválida");
 
+    // Formata a data
     const formattedDate = new Date(data).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
+    // Verificar duplicatas no banco de dados antes de salvar
+    verificarEExcluirDuplicatasAuditoria(ucs);
+
+    // Aguarda a verificação de duplicatas e, em seguida, salva os novos dados
     Promise.all(ucs.map(uc => auditarPec.push().set({ data: formattedDate, ucs: uc, doca, tu, nome, placa, loja })))
         .then(() => {
             const mensagemSucesso = document.getElementById('mensagem-sucesso');
@@ -400,6 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Adiciona um evento para o campo TU
     document.getElementById('input-tu').addEventListener('blur', buscarDadosPorTU);
 });
+
 
 
 
@@ -1123,4 +1153,3 @@ setInterval(updateFields, 1000);
 
 // Chama a função imediatamente para garantir que os campos estejam atualizados ao carregar a página
 updateFields();
-

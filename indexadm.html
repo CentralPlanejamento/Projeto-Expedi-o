@@ -45,7 +45,7 @@
         </nav>
     </header>
 
-    <section id="section-one">
+    <section id="section-one" style="display: none;">
         <form id="gravarPec">
             <div>
                 <textarea id="inputData" class="text-send" placeholder="Informe os dados da PAC"></textarea>
@@ -181,6 +181,14 @@
           <input id="input-tu-five" class="input-form" type="text" placeholder="INFORME A TU" autocomplete="off" required oninput="DadosPorTU()">
         </div>
         <div>
+            <label class="label-text">SETOR</label>
+            <br>
+            <select id="setor"  class="setores">
+                <option>XD</option>
+                <option>STD</option>
+            </select>
+          </div>
+        <div>
           <label class="label-text">INFORME AS UCS</label>
           <br>
           <textarea id="input-uc-five" class="input-textarea" required></textarea>
@@ -200,7 +208,7 @@
         </div>
     </div>
 
-    <section id="section-six" class="hidden">
+      <section id="section-six" class="hidden">
         <table id="tabela-desatribuicao">
           <thead>
             <tr>

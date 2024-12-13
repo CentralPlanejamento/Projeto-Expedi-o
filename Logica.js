@@ -75,7 +75,7 @@ function criarTabela() {
                         <tr>
                             <th>PLACA CARRETA</th><th>Onda</th><th>UC</th><th>Tipologia</th><th>Peso</th>
                             <th>Posição</th><th>Fifo</th><th>Loja</th><th>CHAVE DE VERIFICAÇÃO</th>
-                            <th>TU</th><th>STATUS</th>
+                            <th>TU</th><th>DOCA</th><th>STATUS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,6 +107,7 @@ function criarTabela() {
                             <td>${resto[6] || ''}</td>
                             <td>${resto[7] || ''}</td>
                             <td>${resto[8] || 'Ag auditoria'}</td>
+                            <td>${resto[10] || ''}</td>
                         </tr>
                     `;
 
@@ -122,7 +123,8 @@ function criarTabela() {
                 resto[5] || '', // Loja
                 resto[6] || '', // Chave
                 resto[7] || '', // TU
-                resto[8] || 'Ag auditoria' // Status
+                resto[8] || 'Ag auditoria', // Status
+                resto[10] || '' // DOca
             );
         }
     });
@@ -170,7 +172,7 @@ function salvarAuditarPec() {
         .catch(console.error);
 }
 
-function savePac(placa, onda, uc, tipologia, peso, posicao, fifo, loja, chave, tu, status) {
+function savePac(placa, onda, uc, tipologia, peso, posicao, fifo, loja, chave, tu, doca, status) {
     // Monta o objeto com os dados a serem salvos
     let data = {
         placa: placa,
@@ -183,6 +185,7 @@ function savePac(placa, onda, uc, tipologia, peso, posicao, fifo, loja, chave, t
         loja: loja,
         chave: chave,
         tu: tu,
+        doca: doca,
         status: status
     };
 
@@ -237,7 +240,7 @@ function carregarDadosConferencia() {
                         data.loja = lojaEncontrada;
 
                         // Inserir os campos na tabela
-                        ['placa', 'onda', 'uc', 'tipologia', 'peso', 'posicao', 'fifo', 'loja', 'chave', 'tu'].forEach(field => {
+                        ['placa', 'onda', 'uc', 'tipologia', 'peso', 'posicao', 'fifo', 'loja', 'chave', 'tu', 'doca'].forEach(field => {
                             const cell = row.insertCell();
                             cell.textContent = data[field] || '';
                         });
@@ -260,7 +263,7 @@ function carregarDadosConferencia() {
                 } else {
                     console.error(`Loja ${lojaId} não encontrada no banco de dados LojasPec`);
                     // Inserir os campos na tabela sem substituir loja
-                    ['placa', 'onda', 'uc', 'tipologia', 'peso', 'posicao', 'fifo', 'loja', 'chave', 'tu'].forEach(field => {
+                    ['placa', 'onda', 'uc', 'tipologia', 'peso', 'posicao', 'fifo', 'loja', 'chave', 'tu','doca'].forEach(field => {
                         const cell = row.insertCell();
                         cell.textContent = data[field] || '';
                     });
@@ -776,6 +779,8 @@ function DesatribuicaoPec() {
     const tuValue = document.getElementById('input-tu-five').value.trim();
     const ucValue = document.getElementById('input-uc-five').value.trim();
     const dataValue = document.getElementById('datetime-local-five').value.trim();
+    const setor = document.getElementById('setor').value.trim();
+    
 
     // Verifica se todos os campos estão preenchidos
     if (tuValue && ucValue && dataValue) {
@@ -792,7 +797,8 @@ function DesatribuicaoPec() {
                     TU: tuValue,
                     UC: uc.trim(),  // Remove espaços extras
                     DIA: dataValue,
-                    NOME: loggedInUser  // Adiciona o nome do usuário
+                    NOME: loggedInUser,  // Adiciona o nome do usuário
+                    SETOR: setor
                 });
             });
 
@@ -866,6 +872,7 @@ function carregarDadosDesatribuicao() {
             <td>${item.TU || ''}</td>
             <td>${item.UC || ''}</td>
             <td>${item.NOME || ''}</td>
+            <td>${item.SETOR || ''}</td>
           `;
 
                 tabelaCorpo.appendChild(novaLinha);

@@ -78,6 +78,7 @@
                     <th>LOJA</th>
                     <th>CHAVE</th>
                     <th>TU</th>
+                    <th>DOCA</th>
                     <th>STATUS</th>
                 </tr>
             </thead>
@@ -180,6 +181,14 @@
           <input id="input-tu-five" class="input-form" type="text" placeholder="INFORME A TU" autocomplete="off" required oninput="DadosPorTU()">
         </div>
         <div>
+            <label class="label-text">SETOR</label>
+            <br>
+            <select id="setor"  class="setores">
+                <option>XD</option>
+                <option>STD</option>
+            </select>
+          </div>
+        <div>
           <label class="label-text">INFORME AS UCS</label>
           <br>
           <textarea id="input-uc-five" class="input-textarea" required></textarea>
@@ -207,6 +216,7 @@
               <th>TU</th>
               <th>UC</th>
               <th>NOME</th>
+              <th>PALLET</th>
             </tr>
           </thead>
           <tbody id="tbody-desatribuicao">

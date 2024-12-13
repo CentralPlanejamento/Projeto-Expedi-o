@@ -353,6 +353,20 @@ h5 > a {
     margin: 0 auto;
 }
 
+.setores{
+    width: 5%;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 17px;
+    outline: none;
+    cursor: pointer;
+}
+
+.setores > option{
+    cursor: pointer;
+}
+
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

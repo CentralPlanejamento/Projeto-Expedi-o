@@ -322,7 +322,7 @@ h5 > a {
     }
 
     .setor{
-        width: 10%;
+        width: auto;
     }
 }
 
@@ -358,7 +358,7 @@ h5 > a {
 }
 
 .setores{
-    width: 10%;
+    width: auto;
     text-align: center;
     border-radius: 3px;
     font-size: 17px;
